@@ -53,6 +53,8 @@ for fn in files:
 ntot = len(users)
 ninf = 0
 nmiss = 0
+nsurv = 0
+ndead = 0
 inf_network = []
 for key in users:
     print("=================", key)
@@ -66,8 +68,13 @@ for key in users:
         # date = date.strftime('%Y-%m-%d %H:%M:%S')
         date = date.strftime('%H:%M:%S')
         # print(ev["time"] - min_time, date, ev["type"], ev["data"])
-        if ev["type"] == "INF":
-            data = ev["data"]
+        data = ev["data"]
+        if ev["type"] == "OUT":
+            if data == "RECOVERED":
+                nsurv += 1
+            elif data == "DEAD":
+                ndead += 1
+        elif ev["type"] == "INF":
             if "PEER" in data:
                 pstr = data[5:-1]
                 if ":" in pstr:
@@ -91,6 +98,8 @@ for key in users:
 
 print("Total number of users:", ntot)
 print("Total number of cases:", ninf)
+print("Total number of deaths:", ndead)
+print("Total number of survivors:", nsurv)
 print("Number of infections with known source:", len(inf_network))
 print("Number of infections with missing source:", nmiss)
 
