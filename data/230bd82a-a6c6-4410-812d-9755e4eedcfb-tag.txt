@@ -1,0 +1,3 @@
+time=Tue Dec 10 09:53:21 EST 2019
+from=CASE0
+strain=1
