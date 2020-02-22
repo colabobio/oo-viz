@@ -1,0 +1,3 @@
+time=Sat Feb 22 07:48:22 EST 2020
+from=CASE0
+strain=0
