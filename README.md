@@ -21,10 +21,7 @@ The [Outbreakteach R project](https://github.com/mrc-ide/outbreakteachR) is a go
 
 Some options for graph/network visualization:
 
-[igraph](https://igraph.org)
-
-[networkx](https://networkx.github.io/)
-
-[graph-tool](https://graph-tool.skewed.de/)
-
-[Performance comparison](https://www.timlrx.com/2019/05/05/benchmark-of-popular-graph-network-packages/) between those and a few other packages.
+* [igraph](https://igraph.org)
+* [networkx](https://networkx.github.io/)
+* [graph-tool](https://graph-tool.skewed.de/)
+* [Performance comparison](https://www.timlrx.com/2019/05/05/benchmark-of-popular-graph-network-packages/) between those and a few other packages.
