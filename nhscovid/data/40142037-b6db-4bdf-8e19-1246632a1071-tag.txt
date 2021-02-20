@@ -1,3 +1,0 @@
-time=Thu Mar 05 13:36:26 EST 2020
-from=CASE0
-strain=0

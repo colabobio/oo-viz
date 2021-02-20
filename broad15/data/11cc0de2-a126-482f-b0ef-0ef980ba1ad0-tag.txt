@@ -1,3 +1,0 @@
-time=Tue Dec 10 12:23:51 EST 2019
-from=PEER
-strain=0

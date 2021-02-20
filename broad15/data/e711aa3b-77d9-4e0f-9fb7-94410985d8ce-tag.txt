@@ -1,3 +1,0 @@
-time=Tue Dec 10 11:38:29 EST 2019
-from=CASE0
-strain=1
