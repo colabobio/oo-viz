@@ -1,8 +1,12 @@
-# O2 visualization tools
+# Operation Outbreak visualization scripts
 
-This repo contains some scripts and other tools to visualize O2 data.
+This repo contains Jupyter notebooks and other tools to visualize OO data:
 
-To visualize the log data from a simulation, run the plot_data Jupyter notebook
+* plot_contacts.ipynb: Generates an animated force-directed network graph showing the contacts and infections during the simulations
+* plot_infections.ipynb: Generates an animated force-directed network graph showing the infection chains as the appear and grow during the simulation
+* plot_charts.ipynb: Generates animated 2D charts showing the number of susceptible, infected and removed players over time, number of contacts over time, and number of new cases over time.
+
+In all cases, the notebooks generate a movie file that can be used to play the animations outside the notebook environment.
 
 ## Dependencies
 
