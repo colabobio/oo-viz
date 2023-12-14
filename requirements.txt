@@ -1,3 +1,5 @@
-pytz
+pycairo
+igraph-python
 Pillow
-opencv-python
+pytz
+openpyxl
