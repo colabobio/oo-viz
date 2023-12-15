@@ -1,5 +1,7 @@
 pycairo
 igraph-python
+biopython
 Pillow
 pytz
 openpyxl
+
