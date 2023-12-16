@@ -108,9 +108,11 @@ def get_infection_list(events):
     infections = events[(events["type"] == "infection")]
     
     ilist = []
+    itimes = {}
     infected = infections.user_id.values
-    peers = infections.inf.values    
-    for id1, peer0 in zip(infected, peers):
+    peers = infections.inf.values
+    timestamp = infections.time.values
+    for id1, peer0, ts in zip(infected, peers, timestamp):
         n1 = user_index[id1]
             
         if "PEER" in peer0:
@@ -118,11 +120,23 @@ def get_infection_list(events):
                 # New schema
                 id0 = int(peer0[peer0.index("[") + 1:peer0.index(":")])
                 if id0 in user_index:
-                    n0 = user_index[id0]
-                    if not (n0, n1) in ilist:
+                    n0 = user_index[id0]                    
+                    add_infection = True
+                    for e in ilist:
+                        if e[1] == n1:
+                            pid0 = index_user[e[0]]
+                            ts0 = itimes[(pid0, id1)]
+                            if abs(ts - ts0) <= time_delta_sec:
+                                add_infection = False
+                                if pid0 == id0:                                
+                                    print("Duplicated infection:", id1, "was already infected by", id0, "in the last", time_step_min, "minutes")
+                                else:
+                                    print("Multiple infection:", id1, "is being infected by", id0, "but was already infected by", pid0, "in the last", time_step_min, "minutes")
+                                break    
+
+                    if add_infection: 
                         ilist += [(n0, n1)]
-                    elif print_data_warnings:
-                        print("Duplicated infection", id0, id1)
+                        itimes[(id0, id1)] = ts
                 elif print_data_warnings:
                     print("Cannot find peer", id0)                    
             else:    

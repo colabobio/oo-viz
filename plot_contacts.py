@@ -166,27 +166,40 @@ def get_contact_list(events, infections):
 
 def get_infection_list(events):
     infections = events[(events["type"] == "infection")]
-
+    
     ilist = []
+    itimes = {}
     infected = infections.user_id.values
     peers = infections.inf.values
-    for id1, peer0 in zip(infected, peers):
+    timestamp = infections.time.values
+    for id1, peer0, ts in zip(infected, peers, timestamp):
         n1 = user_index[id1]
-
+            
         if "PEER" in peer0:
             if use_new_id_schema:
                 # New schema
                 id0 = int(peer0[peer0.index("[") + 1:peer0.index(":")])
                 if id0 in user_index:
-                    n0 = user_index[id0]
-                    if not (n0, n1) in ilist:
-                        ilist += [(n0, n1)]
-                    elif print_data_warnings:
-                        print("Duplicated infection", id0, id1)
-                elif print_data_warnings:
-                    print("Cannot find peer", id0)
+                    n0 = user_index[id0]                    
+                    add_infection = True
+                    for e in ilist:
+                        if e[1] == n1:
+                            pid0 = index_user[e[0]]
+                            ts0 = itimes[(pid0, id1)]
+                            if abs(ts - ts0) <= time_delta_sec:
+                                add_infection = False
+                                if pid0 == id0:                                
+                                    print("Duplicated infection:", id1, "was already infected by", id0, "in the last", time_step_min, "minutes")
+                                else:
+                                    print("Multiple infection:", id1, "is being infected by", id0, "but was already infected by", pid0, "in the last", time_step_min, "minutes")
+                                break    
 
-            else:
+                    if add_infection: 
+                        ilist += [(n0, n1)]
+                        itimes[(id0, id1)] = ts
+                elif print_data_warnings:
+                    print("Cannot find peer", id0)                    
+            else:    
                 # Old schema (sims before 2022): p2p id is in the infection column
                 p2p0 = peer0[peer0.index("[") + 1:peer0.index(":")]
                 if p2p0 in p2pToId:
@@ -197,10 +210,10 @@ def get_infection_list(events):
                             ilist += [(n0, n1)]
                         elif print_data_warnings:
                             print("Duplicated infection", id0, id1)  
-                    elif print_data_warnings:
-                        print("Cannot find peer", id0)
+                elif print_data_warnings:
+                    print("Cannot find peer", p2p0)                        
             
-    return ilist 
+    return ilist
 
 def get_node_status(events, status0 = None):    
     if status0 == None:
