@@ -239,9 +239,11 @@ p2pToId = pd.Series(users.id.values, index=users.p2p_id).to_dict()
 idTop2p = pd.Series(users.p2p_id.values, index=users.id).to_dict()
         
 user_index = {}
+index_user = {}
 idx = 0
 for kid in idTop2p:
     user_index[kid] = idx
+    index_user[idx] = kid
     idx += 1
 
 # These should return the same value

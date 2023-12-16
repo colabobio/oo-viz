@@ -5,8 +5,32 @@ This repo contains Jupyter notebooks and other tools to visualize OO data:
 * plot_contacts.ipynb: Generates an animated force-directed network graph showing the contacts and infections during the simulations
 * plot_infections.ipynb: Generates an animated force-directed network graph showing the infection chains as the appear and grow during the simulation
 * plot_charts.ipynb: Generates animated 2D charts showing the number of susceptible, infected and removed players over time, number of contacts over time, and number of new cases over time.
+* plot_sequences.ipynb: Generates the sequences associates to the transmissions by applying the provided mutations to the reference sequence, and plots the network of sequence transmissions and the phylogenetic tree based on the alignment of the sequences.
 
 In all cases, the notebooks generate a movie file that can be used to play the animations outside the notebook environment.
+
+To visualiza the data for very large simulationd, which may hang the notebook, use the corresponding python scripts that can be run from the command line using the simulaton properties in json format:
+
+* python plot_contacts.py simulations/ootest/sim.json
+* python plot_infections.py simulations/ootest/sim.json
+* python plot_charts.py simulations/ootest/sim.json
+* python plot_sequences.py simulations/ootest/sim.json
+
+The json file shoud have the following format:
+
+```
+{
+    "title": "SIM TITLE",
+    "base_folder": "./simulations/ootest",
+    "sim_id": 111,
+    "pathogen_id": 11,
+    "sim_tz": "America/New York",
+    "time0": "Nov 20 2023 9:00AM",
+    "time1": "Dec 4 2023 12:00PM",
+    "time_step_min": 30,
+    "use_new_id_schema": true
+}
+```
 
 ## Dependencies
 
