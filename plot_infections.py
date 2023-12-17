@@ -163,6 +163,7 @@ def get_node_status(events, status0 = None):
 
     inf = events[events["type"] == "infection"]
     infMap = pd.Series(inf.inf.values, index=inf.user_id).to_dict()
+    infTimes = pd.Series(inf.time.values, index=inf.user_id).to_dict()
     for kid in infMap:
         src = infMap[kid]
         idx = user_index[kid]
@@ -179,15 +180,19 @@ def get_node_status(events, status0 = None):
                     
     out = events[events["type"] == "outcome"]
     outMap = pd.Series(out.out.values, index=out.user_id).to_dict()
+    outTimes = pd.Series(out.time.values, index=out.user_id).to_dict()
     for kid in outMap:
         out = outMap[kid]
         idx = user_index[kid]
         if out == "DEAD":
             status[idx] = 3
         if out == "RECOVERED":
-            status[idx] = 4
+            if not kid in infTimes or infTimes[kid] < outTimes[kid]:
+                status[idx] = 4
+            else:
+                print(kid, "became reinfected after recovery from infection")
         if out == "VACCINATED":
-            status[idx] = 5                    
+            status[idx] = 5
     
     return status
 
